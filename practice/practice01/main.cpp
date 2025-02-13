@@ -1,2 +1,6 @@
-abc123
-mmhmmh
+#include <iostream>
+
+int main()
+{
+	std::cout << "Asdf";
+}
