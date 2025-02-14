@@ -1,12 +1,46 @@
 #include <iostream>
 #include <vector>
-#include <string>
 
+// Function to add a number to the vector (Pass-by-Reference)
+void addNumber(std::vector<int>& numbers, int num) {
+    numbers.push_back(num);
+    std::cout << "Number added successfully!" << std::endl;
+}
+
+//Function to print numbers in vector
+void printVector(const std::vector<int>& numbers) {
+    if (numbers.empty()) {
+        std::cout << "No numbers stored yet." << std::endl;
+        return;
+    }
+    else {
+        for (int num : numbers) {
+            std::cout << num << " ";
+        }
+    }
+
+}
+
+void doubleVector(std::vector<int>& numbers) {
+    if (numbers.empty()) {
+        std::cout << "No numbers stored yet." << std::endl;
+        return;
+    }
+    else {
+        for (int& num : numbers) {
+            num *= 2;
+        }
+        /*for (int i = 0; i < numbers.size(); ++i) {
+            std::cout << numbers.at(i) * 2 << std::endl;*/
+        
+    }
+}
 
 int main()
 {
-    std::vector <int> nums;
+    std::vector<int> numbers;
     int choice = 0;
+    int num;
 
     //Displays the menu and asks for the user input
     while (choice != 6) {
@@ -22,12 +56,17 @@ int main()
 
         //Decides what to do based on user input
         if (choice == 1) {
-            std::cout << "Added num to vector!!" << std::endl;
+            int num;
+            std::cout << "What number would you like to enter: ";
+            std::cin >> num;
+            addNumber(numbers, num);
             }
         else if (choice == 2) {
-            std::cout << "Printed vector!!" << std::endl;
+            //std::cout << "Printed vector!!" << std::endl;
+            printVector(numbers);
             }
         else if (choice == 3) {
+            doubleVector(numbers);
             std::cout << "Doubled the vector!!" << std::endl;
             }
         else if (choice == 4) {
