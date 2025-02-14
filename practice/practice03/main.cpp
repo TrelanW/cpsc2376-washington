@@ -2,10 +2,24 @@
 //
 
 #include <iostream>
+#include <vector>
 
 int main()
 {
-    std::cout << "Hello asdf!\n";
+    std::vector <int> nums;
+    int choice = 0;
+
+    //Displays the menu and asks for the user input
+    while (choice != 6) {
+        std::cout << "\n Vector Menu" << std::endl;
+        std::cout << "1. Add number to vector" << std::endl;
+        std::cout << "2. Print vector" << std::endl;
+        std::cout << "3. Double the vector" << std::endl;
+        std::cout << "4. Find the sum" << std::endl;
+        std::cout << "5. Print Multiples" << std::endl;
+        std::cout << "6. Exit" << std::endl;
+        choice = getInt("Enter your choice: ");
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
