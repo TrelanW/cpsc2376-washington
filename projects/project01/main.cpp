@@ -2,7 +2,7 @@
 #include <vector>
 
 enum class Token : char { EMPTY = '.', PLAYER_1 = 'X', PLAYER_2 = 'O'};
-
+enum class GameState { ONGOING, PLAYER_1_WINS, PLAYER_2_WINS, DRAW};
 
 //Board dimensions
 const int rows = 6;
@@ -49,15 +49,53 @@ void makeMove(std::vector<std::vector<Token>>& board, int col, Token player) {
 	}
 }
 
-int main() {
-	printRules();
-	std::vector<std::vector<Token>> board = makeBoard();
-	displayBoard(board);
-	
-	Token currentPlayer = Token::PLAYER_1;
-	int moveCount = 0;
+//Function to check for a win or draw
+GameState gameStatus(const std::vector<std::vector<Token>>& board) {
+	for (int row = 0; row < rows; ++row) {
+		for (int col = 0; col < cols; ++col) {
+			if (board[row][col] == Token::EMPTY) continue;
+			Token curr = board[row][col];
 
-	while (moveCount < rows * cols) {
+			//Check right
+			if (col + 3 < cols && curr == board[row][col + 1] && curr == board[row][col + 2] && curr == board[row][col + 3])
+				return (curr == Token::PLAYER_1) ? GameState::PLAYER_1_WINS : GameState::PLAYER_2_WINS;
+
+			// Check down
+			if (row + 3 < rows && curr == board[row + 1][col] && curr == board[row + 2][col] && curr == board[row + 3][col])
+				return (curr == Token::PLAYER_1) ? GameState::PLAYER_1_WINS : GameState::PLAYER_2_WINS;
+
+			// Check diagonal right-down
+			if (row + 3 < rows && col + 3 < cols && curr == board[row + 1][col + 1] && curr == board[row + 2][col + 2] && curr == board[row + 3][col + 3])
+				return (curr == Token::PLAYER_1) ? GameState::PLAYER_1_WINS : GameState::PLAYER_2_WINS;
+
+			// Check diagonal left-down
+			if (row + 3 < rows && col - 3 >= 0 && curr == board[row + 1][col - 1] && curr == board[row + 2][col - 2] && curr == board[row + 3][col - 3])
+				return (curr == Token::PLAYER_1) ? GameState::PLAYER_1_WINS : GameState::PLAYER_2_WINS;
+		}
+	}
+
+// Check for a draw
+for (int col = 0; col < cols; ++col) {
+	if (board[0][col] == Token::EMPTY) return GameState::ONGOING;
+	}
+	return GameState::DRAW;
+}
+
+
+
+int main() {
+
+	printRules();
+	std::string choice;
+
+	while (true) {
+		std::vector<std::vector<Token>> board = makeBoard();
+		displayBoard(board);
+
+		Token currentPlayer = Token::PLAYER_1;
+		GameState state = GameState::ONGOING;
+
+		while (state == GameState::ONGOING) {
 		int col;
 		std::cout << "Player" << (currentPlayer == Token::PLAYER_1 ? "1 (X)" : "2 (O)") << ", enter a column (1-7): ";
 		std::cin >> col;
@@ -72,10 +110,33 @@ int main() {
 		}
 		makeMove(board, col, currentPlayer);
 		displayBoard(board);
-		currentPlayer = (currentPlayer == Token::PLAYER_1 ? Token::PLAYER_2 : Token::PLAYER_1);
-		moveCount++;
+		state = gameStatus(board);
+
+		if (state == GameState::ONGOING) {
+			currentPlayer = (currentPlayer == Token::PLAYER_1 ? Token::PLAYER_2 : Token::PLAYER_1);
+		}	
+	}
+	
+		//Announce Results
+		if (state == GameState::PLAYER_1_WINS) {
+			std::cout << "Player 1 (X) wins!"<< std::endl;
+		}
+		else if (state == GameState::PLAYER_2_WINS) {
+			std::cout << "Player 2 (O) wins!" << std::endl;
+		}
+		else {
+			std::cout << "It's a draw!" << std::endl;
+		}
+
+		// Ask for replay
+		std::cout << "Play again? (y/n): ";
+		std::cin >> choice;
+
+		if (choice != "y" && choice != "Y") {
+			break;
+		}
 	}
 
-	std::cout << "Game Over! The board is full." << std::endl;
+	std::cout << "Thanks for playing! Goodbye!" << std::endl;
 	return 0;
 }
