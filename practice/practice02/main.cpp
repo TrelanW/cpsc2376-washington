@@ -1,11 +1,25 @@
 // practice02.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 
+void displayMenu() {
+    std::cout << std::endl;
+    std::cout << "Menu:" << std::endl;
+    std::cout << "1. Check Balance" << std::endl;
+    std::cout << "2. Deposit Money" << std::endl;
+    std::cout << "3. Withdraw Money" << std::endl;
+    std::cout << "4. Exit" << std::endl;
+    std::cout << std::endl;
+}
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::cout << "Welcome to Your Bank Account!" << std::endl;
+    displayMenu();
+
+    int userChoice;
+    std::cout << "Enter Your Choice: ";
+    std::cin >> userChoice;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
