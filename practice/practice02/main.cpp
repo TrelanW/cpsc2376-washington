@@ -21,7 +21,7 @@ double readBalanceFromFile() {
         balance = 100.0;
         createfile << balance;
         createfile.close();
-        std::cout << "Initializing account with $100.00..." << std::endl << std::endl;
+        std::cout << "Initializing account with $100.00..." << std::endl;
     }
     else {
         file >> balance;
@@ -36,7 +36,17 @@ double readBalanceFromFile() {
     return balance;
 }
 
-void displayMenu() {
+void writeBalanceToFile(double balance) {
+    std::ofstream file(BALANCE_FILE);
+    if (!file) {
+        std::cerr << "Error: Could not open file to write balance.\n";
+        exit(1);
+    }
+    file << std::fixed << std::setprecision(2) << balance;
+    file.close();
+}
+
+/*void displayMenu() {
     std::cout << std::endl;
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Check Balance" << std::endl;
@@ -44,19 +54,50 @@ void displayMenu() {
     std::cout << "3. Withdraw Money" << std::endl;
     std::cout << "4. Exit" << std::endl;
     std::cout << std::endl;
-}
+}*/
 
 int main(){   
     std::cout << "Welcome to Your Bank Account!" << std::endl;
-    readBalanceFromFile();
-    displayMenu();
+    double balance = readBalanceFromFile();
 
-    int balance;
     int userChoice;
-    std::cout << "Enter Your Choice: ";
-    std::cin >> userChoice;
+    while (true) {
+        std::cout << std::endl;
+        std::cout << "Menu:" << std::endl;
+        std::cout << "1. Check Balance" << std::endl;
+        std::cout << "2. Deposit Money" << std::endl;
+        std::cout << "3. Withdraw Money" << std::endl;
+        std::cout << "4. Exit" << std::endl;
+        std::cout << std::endl;
 
-    if (userChoice == 1) {
+        std::cout << "Enter Your Choice: ";
+        std::cin >> userChoice;
+
+        if (std::cin.fail()) {
+            std::cin.clear(); // clear error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard bad input
+            std::cout << "Invalid Output!(Please enter a number 1-4)." << std::endl;
+            continue;
+        }
+        if (userChoice == 1) {
+
+        }
+        else if (userChoice == 2) {
+
+        }
+        else if (userChoice == 3) {
+
+        }
+        else if (userChoice == 4) {
+
+        }
+        else {
+            std::cout << "Invalid Output!(Please enter a number 1-4)." << std::endl;
+            continue;
+        }
+    }
+
+    /*if (userChoice == 1) {
 
     }
     else if (userChoice == 2) {
@@ -69,12 +110,16 @@ int main(){
 
     }
     else {
+        if (std::cin.fail()) {
+            std::cin.clear(); // clear error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard bad input
+        }
         std::cout << "Invalid Output!" << std::endl;
         std::cout << "Would you like to display menu again? (y/n):";
         char choice;
         std::cin >> choice;
         if (choice == 'y') {
-            displayMenu();
+            //displayMenu();
             std::cout << "Enter Your Choice: ";
             std::cin >> userChoice;
         }
@@ -86,7 +131,7 @@ int main(){
             return 1;
         }
 
-    }
+    }*/
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
