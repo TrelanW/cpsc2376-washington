@@ -46,15 +46,50 @@ void writeBalanceToFile(double balance) {
     file.close();
 }
 
-/*void displayMenu() {
-    std::cout << std::endl;
-    std::cout << "Menu:" << std::endl;
-    std::cout << "1. Check Balance" << std::endl;
-    std::cout << "2. Deposit Money" << std::endl;
-    std::cout << "3. Withdraw Money" << std::endl;
-    std::cout << "4. Exit" << std::endl;
-    std::cout << std::endl;
-}*/
+void checkBalance(double balance) {
+    std::cout << "Your current balance is: $" << std::fixed << std::setprecision(2) << balance << "\n";
+}
+
+double deposit(double balance) {
+    double amount;
+    std::cout << "Enter deposit amount: ";
+    std::cin >> amount;
+
+    if (std::cin.fail() || amount <= 0) {
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        std::cout << "Error: Deposit amount must be positive.\n";
+        return balance;
+    }
+
+    balance += amount;
+    writeBalanceToFile(balance);
+    std::cout << "Deposit successful. Your new balance is: $" << std::fixed << std::setprecision(2) << balance << "\n";
+    return balance;
+}
+
+double withdraw(double balance) {
+    double amount;
+    std::cout << "Enter withdrawal amount: ";
+    std::cin >> amount;
+
+    if (std::cin.fail() || amount <= 0) {
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        std::cout << "Error: Withdrawal amount must be positive.\n";
+        return balance;
+    }
+
+    if (amount > balance) {
+        std::cout << "Error: Insufficient funds. Your balance is $" << std::fixed << std::setprecision(2) << balance << ".\n";
+        return balance;
+    }
+
+    balance -= amount;
+    writeBalanceToFile(balance);
+    std::cout << "Withdrawal successful. Your new balance is: $" << std::fixed << std::setprecision(2) << balance << "\n";
+    return balance;
+}
 
 int main(){   
     std::cout << "Welcome to Your Bank Account!" << std::endl;
@@ -80,16 +115,17 @@ int main(){
             continue;
         }
         if (userChoice == 1) {
-
+            checkBalance(balance);
         }
         else if (userChoice == 2) {
-
+            balance = deposit(balance);
         }
         else if (userChoice == 3) {
-
+            balance = withdraw(balance);
         }
         else if (userChoice == 4) {
-
+            std::cout << "Thank you for using the bank account program. Goodbye!\n";
+            break;
         }
         else {
             std::cout << "Invalid Output!(Please enter a number 1-4)." << std::endl;
@@ -97,41 +133,7 @@ int main(){
         }
     }
 
-    /*if (userChoice == 1) {
-
-    }
-    else if (userChoice == 2) {
-
-    }
-    else if (userChoice == 3) {
-
-    }
-    else if (userChoice == 4) {
-
-    }
-    else {
-        if (std::cin.fail()) {
-            std::cin.clear(); // clear error state
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard bad input
-        }
-        std::cout << "Invalid Output!" << std::endl;
-        std::cout << "Would you like to display menu again? (y/n):";
-        char choice;
-        std::cin >> choice;
-        if (choice == 'y') {
-            //displayMenu();
-            std::cout << "Enter Your Choice: ";
-            std::cin >> userChoice;
-        }
-        else if (choice == 'n') {
-            return 1;
-        }
-        else {
-            std::cout << "Invalid Input Again!! Your're Out!!!" << std::endl;
-            return 1;
-        }
-
-    }*/
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
