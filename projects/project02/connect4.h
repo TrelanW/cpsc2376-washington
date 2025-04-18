@@ -11,6 +11,8 @@ public:
 
     Game();
 
+    void play(int column);
+    Status status() const;
     friend std::ostream& operator<<(std::ostream& os, const Game& game);
 
 private:
@@ -20,6 +22,11 @@ private:
     std::vector<std::vector<Cell>> board;
     bool player1Turn;
     Status gameStatus;
+
+    bool isValidMove(int col) const;
+    int getAvailableRow(int col) const;
+    void checkForWin(int row, int col);
+    bool isDraw() const;
 };
 
 #endif // CONNECT4_H
