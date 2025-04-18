@@ -13,6 +13,8 @@ public:
 
     void play(int column);
     Status status() const;
+    bool isPlayer1Turn() const;
+
     friend std::ostream& operator<<(std::ostream& os, const Game& game);
 
 private:
