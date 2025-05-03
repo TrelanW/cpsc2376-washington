@@ -1,4 +1,5 @@
 #include "connect4.h"
+#include <SDL2/SDL.h>
 
 Game::Game()
     : board(ROWS, std::vector<Cell>(COLS, Cell::Empty)),
@@ -37,6 +38,7 @@ void Game::play(int col) {
 }
 
 Game::State Game::status() const { return gameState; }
+
 void Game::reset() {
     for (int r = 0; r < ROWS; ++r)
         for (int c = 0; c < COLS; ++c)
@@ -44,8 +46,13 @@ void Game::reset() {
     current = Cell::Red;
     gameState = State::InProgress;
 }
-Game::Cell Game::at(int row, int col) const { return board[row][col]; }
-Game::Cell Game::currentPlayer() const { return current; }
+
+Game::Cell Game::at(int row, int col) const { 
+    return board[row][col]; 
+}
+Game::Cell Game::currentPlayer() const { 
+    return current; 
+}
 
 bool Game::checkWin(int r, int c, Cell p) const {
     const int directions[4][2] = { {0,1}, {1,0}, {1,1}, {1,-1} };
@@ -65,4 +72,26 @@ bool Game::checkWin(int r, int c, Cell p) const {
         if (count >= 4) return true;
     }
     return false;
+}
+
+void Game::draw(SDL_Renderer* renderer) const {
+    const int CELL_SIZE = 80;
+    SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);  // board background
+    SDL_RenderClear(renderer);
+
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            SDL_Rect cellRect = { col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE };
+
+            Cell cell = board[row][col];
+            if (cell != Cell::Empty) {
+                SDL_Color color = (cell == Cell::Red)
+                    ? SDL_Color{ 255, 0, 0, 255 }
+                : SDL_Color{ 255, 255, 0, 255 }; // Yellow
+                SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+                SDL_Rect disc = { cellRect.x + 10, cellRect.y + 10, CELL_SIZE - 20, CELL_SIZE - 20 };
+                SDL_RenderFillRect(renderer, &disc);
+            }
+        }
+    }
 }

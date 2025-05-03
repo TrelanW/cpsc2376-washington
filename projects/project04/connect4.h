@@ -1,6 +1,6 @@
 #ifndef CONNECT4_H
 #define CONNECT4_H
-
+#include <SDL2/SDL.h>
 #include <vector>
 
 class Game {
@@ -15,6 +15,7 @@ public:
     Cell at(int row, int col) const;
     Cell currentPlayer() const;
 
+    void draw(SDL_Renderer* renderer) const;
 private:
     static const int ROWS = 6;
     static const int COLS = 7;
