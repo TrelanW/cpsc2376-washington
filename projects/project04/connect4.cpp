@@ -94,4 +94,12 @@ void Game::draw(SDL_Renderer* renderer) const {
             }
         }
     }
+    // Draw black grid lines
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // black lines
+    for (int r = 0; r <= ROWS; ++r) {
+        SDL_RenderDrawLine(renderer, 0, r * CELL_SIZE, COLS * CELL_SIZE, r * CELL_SIZE);
+    }
+    for (int c = 0; c <= COLS; ++c) {
+        SDL_RenderDrawLine(renderer, c * CELL_SIZE, 0, c * CELL_SIZE, ROWS * CELL_SIZE);
+    }
 }
